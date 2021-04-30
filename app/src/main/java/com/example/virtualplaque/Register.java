@@ -97,6 +97,22 @@ public class Register extends AppCompatActivity {
                         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
                         if(task.isSuccessful()){
 
+                            //Verify email code -----   Uncomment when the app gets serious
+
+                            FirebaseUser fUser = fAuth.getCurrentUser();
+                            fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(Register.this, "Verification E-mail has been sent", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG,"Failure: E-mail not sent"+ e.getMessage());
+                                }
+                            });
+
+
                             Toast.makeText( Register.this, "User Created.",Toast.LENGTH_SHORT).show();
                             userID = fAuth.getCurrentUser().getUid();
                             //creating Document in FireStore Collection
@@ -104,7 +120,6 @@ public class Register extends AppCompatActivity {
                             Map<String, Object> user = new HashMap<>();
                             user.put("fName", fullName);
                             user.put("email", email);
-                            //docRef.set(user)
                             //fStore.collection("users").document(currUser.getUid()).set(user)
                             docRef.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -118,7 +133,6 @@ public class Register extends AppCompatActivity {
                                     Log.d(TAG,"onFailure: "+ e.toString());
                                 }
                             });
-                            //Toast.makeText(Register.this,"Saving to DB", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         }
                         else{
