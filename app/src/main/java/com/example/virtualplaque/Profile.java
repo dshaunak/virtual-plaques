@@ -31,6 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class Profile extends AppCompatActivity {
 
@@ -62,6 +63,19 @@ public class Profile extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         fCloudStorage = FirebaseStorage.getInstance().getReference();
+
+        StorageReference fProfileImg = fCloudStorage.child("users/"+fAuth.getCurrentUser().getEmail()+"/profileImg.jpg");
+        fProfileImg.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImage);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                StorageReference defaultImg = fCloudStorage.child("defaultuser.png");
+            }
+        });
 
         userID = fAuth.getCurrentUser().getUid();
         fUser = fAuth.getCurrentUser();
@@ -95,9 +109,13 @@ public class Profile extends AppCompatActivity {
         docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot docSnap, @Nullable FirebaseFirestoreException error) {
-                fullName.setText(docSnap.getString("fName"));
-                email.setText(docSnap.getString("email"));
+                if(docSnap.exists()){
+                    fullName.setText(docSnap.getString("fName"));
+                    email.setText(docSnap.getString("email"));
 
+                }else {
+                    Log.d("tag", "onEvent: Document do not exists");
+                }
             }
         });
             //RESET Password Method
@@ -153,42 +171,19 @@ public class Profile extends AppCompatActivity {
             changeProfileBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Open Gallery to let user change the profile image
-                    Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(openGalleryIntent,1000);
+
+                    startActivity(new Intent(getApplicationContext(),EditProfile.class));
+                    /*Intent i = new Intent(v.getContext(),EditProfile.class);
+                    i.putExtra("username","Shaunak");
+                    i.putExtra("email","shaunsea2@gmail.com");
+                    startActivity(i);*/
                 }
             });
     }
     //Just type 'onActivityResult' on this line to get the option to override onCreate. This is done to work on the Image URI obtained from the Gallery activity.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1000){
-            // 1000 is our given code for the Intent invoking the Gallery activity. This is done to make sure the correct Intent is used, in case of a complex application.
-            if(resultCode == Activity.RESULT_OK){
-                //making user we have some data in the 'data' variable which is supposed to hold the URI link of the image selected from the Gallery
-                Uri imageUri = data.getData();
-                profileImage.setImageURI(imageUri);
-
-                uploadImageToFirebase(imageUri);
-            }
-        }
-    }
-
-    private void uploadImageToFirebase(Uri imageUri) {
-        //Upload Image to Firebase Cloud Storage Function
-        StorageReference newStore = fCloudStorage.child("profileImage.jpg");
-        newStore.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(Profile.this, "Profile Image successfully uploaded.", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Profile.this, "Upload Failed.", Toast.LENGTH_SHORT).show();
-            }
-        });
+    public void back(View view) {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        //finish();
     }
 }

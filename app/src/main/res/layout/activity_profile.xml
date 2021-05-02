@@ -6,50 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Profile">
 
-    <TextView
-        android:id="@+id/textVerified"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="E-mail Verified! "
-        android:textColor="#F068B114"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/textNotVerified"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewnew"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/verifyBt"
-        android:layout_width="99dp"
-        android:layout_height="33dp"
-        android:text="Verify"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNotVerified"
-        app:layout_constraintVertical_bias="0.025" />
-
-    <TextView
-        android:id="@+id/textNotVerified"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="E-mail Not Verified! "
-        android:textColor="#E4971616"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewnew"
-        app:layout_constraintVertical_bias="0.132" />
-
     <ImageView
         android:id="@+id/profImage"
         android:layout_width="136dp"
@@ -92,17 +48,37 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.364" />
 
-    <Button
-        android:id="@+id/resetPassBt"
+    <TextView
+        android:id="@+id/textVerified"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reset Password"
+        android:text="E-mail Verified! "
+        android:textColor="#F068B114"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textNotVerified"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewnew"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textNotVerified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E-mail Not Verified! "
+        android:textColor="#E4971616"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileBt"
-        app:layout_constraintVertical_bias="0.285" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewnew"
+        app:layout_constraintVertical_bias="0.121" />
 
     <Button
         android:id="@+id/editProfileBt"
@@ -114,7 +90,31 @@
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/verifyBt"
-        app:layout_constraintVertical_bias="0.123" />
+        app:layout_constraintVertical_bias="0.201" />
+
+    <Button
+        android:id="@+id/resetPassBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileBt"
+        app:layout_constraintVertical_bias="0.072" />
+
+    <Button
+        android:id="@+id/verifyBt"
+        android:layout_width="102dp"
+        android:layout_height="40dp"
+        android:text="Verify"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textNotVerified"
+        app:layout_constraintVertical_bias="0.021" />
 
     <TextView
         android:id="@+id/textUN"
@@ -149,25 +149,11 @@
         android:layout_height="43dp"
         app:layout_constraintBottom_toBottomOf="@+id/profEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profUsername"
-        app:layout_constraintVertical_bias="0.575"
+        app:layout_constraintVertical_bias="0.333"
         app:srcCompat="@drawable/icons8_email_64" />
-
-    <TextView
-        android:id="@+id/profEmail"
-        android:layout_width="309dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="60dp"
-        android:fontFamily="monospace"
-        android:text="E-mail"
-        android:textColor="#E10C0606"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.862"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profUsername" />
 
     <TextView
         android:id="@+id/textE"
@@ -179,10 +165,24 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/profEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profUsername"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintVertical_bias="0.52" />
+
+    <TextView
+        android:id="@+id/profEmail"
+        android:layout_width="309dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="44dp"
+        android:fontFamily="monospace"
+        android:text="E-mail"
+        android:textColor="#E10C0606"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.862"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profUsername" />
 
     <TextView
         android:id="@+id/textViewnew"
@@ -198,7 +198,7 @@
         app:layout_constraintHorizontal_bias="0.278"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profEmail"
-        app:layout_constraintVertical_bias="0.187" />
+        app:layout_constraintVertical_bias="0.125" />
 
     <TextView
         android:id="@+id/textG"
@@ -213,6 +213,19 @@
         app:layout_constraintHorizontal_bias="0.243"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profEmail"
-        app:layout_constraintVertical_bias="0.682" />
+        app:layout_constraintVertical_bias="0.414" />
+
+    <ImageView
+        android:id="@+id/imageBackArr"
+        android:layout_width="52dp"
+        android:layout_height="44dp"
+        android:onClick="back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/resetPassBt"
+        app:layout_constraintHorizontal_bias="0.346"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewnew"
+        app:layout_constraintVertical_bias="0.725"
+        app:srcCompat="@drawable/backarrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
