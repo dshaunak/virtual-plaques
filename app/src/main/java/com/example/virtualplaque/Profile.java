@@ -2,12 +2,20 @@ package com.example.virtualplaque;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +35,10 @@ public class Profile extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
-    Button resendCode;
+    Button resendCode, resetPasswordBt, changeProfileBt;
     public static final String TAG = "Verification";
+    FirebaseUser fUser;
+    ImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +50,15 @@ public class Profile extends AppCompatActivity {
         notVerified = findViewById(R.id.textNotVerified);
         Verified = findViewById(R.id.textVerified);
         resendCode = findViewById(R.id.verifyBt);
+        resetPasswordBt = findViewById(R.id.resetPassBt);
+        profileImage = findViewById(R.id.profImage);
+        changeProfileBt = findViewById(R.id.editProfileBt);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
         userID = fAuth.getCurrentUser().getUid();
-        FirebaseUser fUser = fAuth.getCurrentUser();
+        fUser = fAuth.getCurrentUser();
 
         if(!fUser.isEmailVerified()){
             notVerified.setVisibility(View.VISIBLE);
@@ -81,5 +94,77 @@ public class Profile extends AppCompatActivity {
 
             }
         });
+            //RESET Password Method
+        resetPasswordBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Setting up the Alert Dialogue to pop up when prompted
+                final EditText resetPassword = new EditText(v.getContext());
+                final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+                passwordResetDialog.setTitle("Reset Password?");
+                passwordResetDialog.setMessage("Enter the new password. Must be > 6 characters");
+                passwordResetDialog.setView(resetPassword);
+
+                passwordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Extract the E-mail and send reset link
+                        String pass = resetPassword.getText().toString();
+
+                        if(pass.length() < 6){
+                            resetPassword.setError("Password must be greater than 6 characters");
+                            Toast.makeText(v.getContext(), "Password must be of 6 or more Characters!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        fUser.updatePassword(pass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                Toast.makeText(v.getContext(), "Password Updated Successfully!", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(v.getContext(), "Password Update Failed." + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                });
+
+                passwordResetDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Do nothing to return to the Login page
+                    }
+                });
+                passwordResetDialog.create().show();
+            }
+        });
+
+
+            changeProfileBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Open Gallery to let user change the profile image
+                    Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(openGalleryIntent,1000);
+                }
+            });
+    }
+    //Just type 'onActivityResult' on this line to get the option to override onCreate. This is done to work on the Image URI obtained from the Gallery activity.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1000){
+            // 1000 is our given code for the Intent invoking the Gallery activity. This is done to make sure the correct Intent is used, in case of a complex application.
+            if(resultCode == Activity.RESULT_OK){
+                //making user we have some data in the 'data' variable which is supposed to hold the URI link of the image selected from the Gallery
+                Uri imageUri = data.getData();
+                profileImage.setImageURI(imageUri);
+            }
+        }
     }
 }

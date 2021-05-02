@@ -20,36 +20,35 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewnew"
-        app:layout_constraintVertical_bias="0.478" />
+        app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/textViewnew"
-        android:layout_width="wrap_content"
-        android:layout_height="31dp"
-        android:layout_marginTop="48dp"
-        android:fontFamily="monospace"
-        android:text="User Name:"
-        android:textColor="#E10C0606"
-        android:textSize="16sp"
+    <Button
+        android:id="@+id/verifyBt"
+        android:layout_width="99dp"
+        android:layout_height="33dp"
+        android:text="Verify"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profEmail"
-        app:layout_constraintVertical_bias="0.003" />
+        app:layout_constraintTop_toBottomOf="@+id/textNotVerified"
+        app:layout_constraintVertical_bias="0.025" />
 
     <TextView
-        android:id="@+id/profEmail"
+        android:id="@+id/textNotVerified"
         android:layout_width="wrap_content"
-        android:layout_height="31dp"
-        android:layout_marginTop="48dp"
-        android:fontFamily="monospace"
-        android:text="E-mail"
-        android:textColor="#E10C0606"
+        android:layout_height="wrap_content"
+        android:text="E-mail Not Verified! "
+        android:textColor="#E4971616"
         android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewnew"
+        app:layout_constraintVertical_bias="0.132" />
 
     <ImageView
         android:id="@+id/profImage"
@@ -57,22 +56,23 @@
         android:layout_height="130dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.199"
+        app:layout_constraintVertical_bias="0.109"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/profUsername"
         android:layout_width="wrap_content"
         android:layout_height="31dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="56dp"
         android:fontFamily="monospace"
         android:text="User Name:"
         android:textColor="#E10C0606"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.278"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profImage" />
 
@@ -90,35 +90,129 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.479" />
-
-    <TextView
-        android:id="@+id/textNotVerified"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="E-mail Not Verified! "
-        android:textColor="#E4971616"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewnew"
-        app:layout_constraintVertical_bias="0.409" />
+        app:layout_constraintVertical_bias="0.364" />
 
     <Button
-        android:id="@+id/verifyBt"
+        android:id="@+id/resetPassBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verify"
+        android:text="Reset Password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileBt"
+        app:layout_constraintVertical_bias="0.285" />
+
+    <Button
+        android:id="@+id/editProfileBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verifyBt"
+        app:layout_constraintVertical_bias="0.123" />
+
+    <TextView
+        android:id="@+id/textUN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:text="Username:"
+        android:textColor="#E1040101"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/profUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.261"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profImage"
+        app:layout_constraintVertical_bias="0.722" />
+
+    <ImageView
+        android:id="@+id/imageViewUN"
+        android:layout_width="45dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profImage"
+        app:layout_constraintVertical_bias="0.595"
+        app:srcCompat="@drawable/icons8_user_96" />
+
+    <ImageView
+        android:id="@+id/imageViewEmail"
+        android:layout_width="44dp"
+        android:layout_height="43dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profUsername"
+        app:layout_constraintVertical_bias="0.575"
+        app:srcCompat="@drawable/icons8_email_64" />
+
+    <TextView
+        android:id="@+id/profEmail"
+        android:layout_width="309dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="monospace"
+        android:text="E-mail"
+        android:textColor="#E10C0606"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.862"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profUsername" />
+
+    <TextView
+        android:id="@+id/textE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:text="E-mail:"
+        android:textColor="#E1040101"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/profEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profUsername"
+        app:layout_constraintVertical_bias="0.666" />
+
+    <TextView
+        android:id="@+id/textViewnew"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:fontFamily="monospace"
+        android:text="User Name:"
+        android:textColor="#E10C0606"
+        android:textSize="16sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.278"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNotVerified"
-        app:layout_constraintVertical_bias="0.325" />
+        app:layout_constraintTop_toBottomOf="@+id/profEmail"
+        app:layout_constraintVertical_bias="0.187" />
+
+    <TextView
+        android:id="@+id/textG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender:"
+        android:textColor="#E1040101"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textViewnew"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.243"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profEmail"
+        app:layout_constraintVertical_bias="0.682" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
