@@ -28,15 +28,20 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class Profile extends AppCompatActivity {
 
     TextView fullName, email, notVerified, Verified;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    StorageReference fCloudStorage;
     String userID;
     Button resendCode, resetPasswordBt, changeProfileBt;
     public static final String TAG = "Verification";
+    public static final String TAG1 = "ProfileImage";
     FirebaseUser fUser;
     ImageView profileImage;
 
@@ -56,6 +61,7 @@ public class Profile extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+        fCloudStorage = FirebaseStorage.getInstance().getReference();
 
         userID = fAuth.getCurrentUser().getUid();
         fUser = fAuth.getCurrentUser();
@@ -164,7 +170,25 @@ public class Profile extends AppCompatActivity {
                 //making user we have some data in the 'data' variable which is supposed to hold the URI link of the image selected from the Gallery
                 Uri imageUri = data.getData();
                 profileImage.setImageURI(imageUri);
+
+                uploadImageToFirebase(imageUri);
             }
         }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        //Upload Image to Firebase Cloud Storage Function
+        StorageReference newStore = fCloudStorage.child("profileImage.jpg");
+        newStore.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(Profile.this, "Profile Image successfully uploaded.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(Profile.this, "Upload Failed.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
