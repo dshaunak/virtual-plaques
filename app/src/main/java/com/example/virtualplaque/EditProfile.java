@@ -118,7 +118,7 @@ public class EditProfile extends AppCompatActivity {
                 fUser.updateEmail(eM).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        DocumentReference docRef = fStore.collection("users").document(fUser.getUid());
+                        DocumentReference docRef = fStore.collection("users").document(eM);
                         Map<String, Object> editMap = new HashMap<>();
                         editMap.put("email",eM);
                         editMap.put("fName",userN);

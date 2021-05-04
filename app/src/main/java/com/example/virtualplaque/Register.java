@@ -100,7 +100,7 @@ public class Register extends AppCompatActivity {
                             //Verify email code -----   Uncomment when the app gets serious
 
                             FirebaseUser fUser = fAuth.getCurrentUser();
-                            fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            /*fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(Register.this, "Verification E-mail has been sent", Toast.LENGTH_SHORT).show();
@@ -110,13 +110,13 @@ public class Register extends AppCompatActivity {
                                 public void onFailure(@NonNull Exception e) {
                                     Log.d(TAG,"Failure: E-mail not sent"+ e.getMessage());
                                 }
-                            });
+                            });*/
 
 
                             Toast.makeText( Register.this, "User Created.",Toast.LENGTH_SHORT).show();
                             userID = fAuth.getCurrentUser().getUid();
                             //creating Document in FireStore Collection
-                            DocumentReference docRef = fStore.collection("users").document(userID);
+                            DocumentReference docRef = fStore.collection("users").document(email);
                             Map<String, Object> user = new HashMap<>();
                             user.put("fName", fullName);
                             user.put("email", email);
