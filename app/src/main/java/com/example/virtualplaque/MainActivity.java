@@ -19,12 +19,22 @@ public class MainActivity extends AppCompatActivity {
         //this.startActivity(intent);
     }
 
+    //Open Profiles Page
     public void profile(View view){
         startActivity(new Intent(getApplicationContext(),Profile.class));
     }
+
+    //Open MapBox Map Page
+    public void map(View view) {
+        startActivity(new Intent(getApplicationContext(),Map.class));
+    }
+
+    //Open Logout Page
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut(); //Logout the user
         startActivity(new Intent(getApplicationContext(),Login.class));
         finish();
     }
+
+
 }

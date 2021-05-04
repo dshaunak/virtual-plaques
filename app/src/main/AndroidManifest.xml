@@ -4,6 +4,7 @@
     package="com.example.virtualplaque">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,8 @@
         android:theme="@style/Theme.VirtualPlaque"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".EditProfile"></activity>
+        <activity android:name=".Map"></activity>
+        <activity android:name=".EditProfile" />
         <activity android:name=".Profile" />
         <activity android:name=".Login">
             <intent-filter>
