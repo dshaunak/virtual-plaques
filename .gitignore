@@ -15,6 +15,14 @@
 
 /app/src/main/res/values/strings.xml
 
+build.gradle
+
+gradle.properties
+
+settings.gradle
+
+
+
 /app/build.gradle
 
 local.properties
