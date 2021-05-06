@@ -16,8 +16,8 @@
         android:theme="@style/Theme.VirtualPlaque"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".AddPlaque"></activity>
-        <activity android:name=".MapBMap" />
+        <activity android:name=".MapBoxMap"></activity>
+        <activity android:name=".AddPlaque" />
         <activity android:name=".MapPage" />
         <activity android:name=".Map" />
         <activity android:name=".EditProfile" />

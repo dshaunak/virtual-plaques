@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void mapBoxPage(View view) {
-        startActivity(new Intent(getApplicationContext(),MapBMap.class));
+        startActivity(new Intent(getApplicationContext(),MapBoxMap.class));
     }
 
     public void addPlaquePage(View view) {
