@@ -19,7 +19,6 @@
         <activity android:name=".MapBoxMap"></activity>
         <activity android:name=".AddPlaque" />
         <activity android:name=".MapPage" />
-        <activity android:name=".Map" />
         <activity android:name=".EditProfile" />
         <activity android:name=".Profile" />
         <activity android:name=".Login">
