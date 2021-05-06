@@ -43,4 +43,39 @@
         app:layout_constraintTop_toBottomOf="@+id/profileBt"
         app:layout_constraintVertical_bias="0.808" />
 
+    <Button
+        android:id="@+id/map2Bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="mapPage"
+        android:text="Map2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/map3Bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:onClick="mapBoxPage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.377" />
+
+    <Button
+        android:id="@+id/addPlaqueBt"
+        android:layout_width="wrap_content"
+        android:onClick="addPlaquePage"
+        android:layout_height="wrap_content"
+        android:text="Add Plaque"
+        app:layout_constraintBottom_toTopOf="@+id/map3Bt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileBt" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,7 +70,10 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+                if(fAuth.getCurrentUser() == null){
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+
 
                 //Authenticate User and Login
 

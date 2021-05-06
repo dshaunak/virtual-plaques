@@ -40,6 +40,7 @@ public class Profile extends AppCompatActivity {
     FirebaseFirestore fStore;
     StorageReference fCloudStorage;
     String userID;
+    String eMail;
     Button resendCode, resetPasswordBt, changeProfileBt;
     public static final String TAG = "Verification";
     public static final String TAG1 = "ProfileImage";
@@ -78,6 +79,7 @@ public class Profile extends AppCompatActivity {
         });
 
         userID = fAuth.getCurrentUser().getUid();
+        eMail = fAuth.getCurrentUser().getEmail();
         fUser = fAuth.getCurrentUser();
 
         if(!fUser.isEmailVerified()){
@@ -105,7 +107,7 @@ public class Profile extends AppCompatActivity {
             Verified.setVisibility(View.VISIBLE);
         }
 
-        DocumentReference docRef = fStore.collection("users").document(userID);
+        DocumentReference docRef = fStore.collection("users").document(eMail);
         docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot docSnap, @Nullable FirebaseFirestoreException error) {

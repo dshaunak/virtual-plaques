@@ -67,6 +67,8 @@ public class EditProfile extends AppCompatActivity {
         //String username = data.getStringExtra("username");
         //String email = data.getStringExtra("email");
 
+
+        //Get Username and E-mail from FireStore
         String userID = fUser.getUid();
         DocumentReference docRef = fStore.collection("users").document(userID);
         docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -76,6 +78,8 @@ public class EditProfile extends AppCompatActivity {
                 eMail.setText(docSnap.getString("email"));
             }
         });
+
+        //Get User Profile Image
 
         StorageReference fProfileImg = fCloudStore.child("users/"+fAuth.getCurrentUser().getEmail()+"/profileImg.jpg");
         fProfileImg.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
