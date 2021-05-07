@@ -4,44 +4,37 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.PointF;
 import android.os.Bundle;
+import android.graphics.BitmapFactory;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.common.collect.Iterables;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.model.Document;
-import com.google.gson.JsonObject;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
+import com.mapbox.mapboxsdk.plugins.annotation.OnSymbolClickListener;
+import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-import android.graphics.BitmapFactory;
-import android.view.View;
+
+import android.util.Log;
 import android.widget.Toast;
 
 import static com.mapbox.mapboxsdk.style.expressions.Expression.exponential;
 import static com.mapbox.mapboxsdk.style.expressions.Expression.interpolate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -61,6 +54,10 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacem
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconSize;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.eq;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.get;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.literal;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAnchor;
 
 
 public class MapPage extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener{
@@ -69,6 +66,10 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
     public static final String SOURCE_ID = "SOURCE_ID";
     public static final String ICON_ID = "ICON_ID";
     public static final String LAYER_ID = "LAYER_ID";
+    private static final String CALLOUT_LAYER_ID = "CALLOUT_LAYER_ID";
+    private static final String PROPERTY_SELECTED = "selected";
+    private static final String PLAQUE_NAME = "title";
+    private static final String PLAQUE_DESCRIPTION = "description";
 
 
     public MapView mapView;
@@ -77,6 +78,14 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
     FirebaseUser fUser;
     FirebaseFirestore fStore;
     public List<Feature> markerList;
+    public List<Point> pointList;
+    private GeoJsonSource source;
+    private FeatureCollection featureCollection;
+    public SymbolManager symbolManager;
+    public DocumentSnapshot dS;
+    public double[] arr = new double[400];
+    public int count =0;
+    public static final String TAG = "Points";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +103,9 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
         fUser=fAuth.getCurrentUser();
 
         markerList= new ArrayList<>();
+        pointList= new ArrayList<>();
+
+        //-------------------Getting saved User Plaque data from Google FireStore and adding it to the "markerList" Feature List to display.
 
         String eMail = fUser.getEmail();
         CollectionReference colRef = (CollectionReference) fStore.collection("users").document(eMail)
@@ -102,18 +114,21 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
         colRef.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                 int count = value.size();
+                                 count = value.size();
                         Toast.makeText(MapPage.this, "Firebase Doc Snapshot received." + count, Toast.LENGTH_SHORT).show();
                         int i =0;
-
+                        int j=0;
                         List<DocumentSnapshot> docSnap = value.getDocuments();
                         ListIterator itr =docSnap.listIterator(0);
 
                         while(i<count){
 
-                            DocumentSnapshot dS = docSnap.get(i);
+                            dS = docSnap.get(i);
                             markerList.add(Feature.fromGeometry(
                                     Point.fromLngLat(Double.parseDouble(dS.getString("loCord")), Double.parseDouble(dS.getString("laCord")))));
+                                    //arr[j++]=Double.parseDouble(dS.getString("loCord"));
+                                    //arr[j++]=Double.parseDouble(dS.getString("laCord"));
+                            pointList.add(Point.fromLngLat(Double.parseDouble(dS.getString("loCord")), Double.parseDouble(dS.getString("laCord"))));
                             i++;
                         }
 
@@ -147,6 +162,8 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
                 style.addSource(new GeoJsonSource(SOURCE_ID,
                         FeatureCollection.fromFeatures(symbolLayerIconFeatureList)));   */
 
+                // ------ WORKING CODE COMMENTED TO TEST SYMBOL MANAGER
+                /*
                 style.addSource(new GeoJsonSource(SOURCE_ID,
                         FeatureCollection.fromFeatures(markerList)));
 
@@ -162,15 +179,63 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
                                 iconOffset(new Float[]{0f, -9f}),
                                 iconSize(interpolate(exponential(1f),zoom(),stop(12,0.25f)))
                 ));
+                */
+                //------------------------------------------------------------------------------------------
+
+                style.addImage(ICON_ID, BitmapFactory.decodeResource(
+                        MapPage.this.getResources(), R.drawable.markersym));
+
+                symbolManager = new SymbolManager(mapView,mapboxMap,style);
+                symbolManager.setIconAllowOverlap(true);
+                symbolManager.setTextAllowOverlap(true);
+
+                //symbolManager.create(new SymbolOptions().withData(new GeoJsonSource(SOURCE_ID, FeatureCollection.fromFeatures(markerList))));
+
+                int arri=0;
+
+                //arr[arri],arr[arri+1]
+                //while(arri+1<arr.length)
+                ListIterator iterator = pointList.listIterator();
+                while(iterator.hasNext()){
+                    /*Point p = Point.fromLngLat(arr[arri],arr[arri+1]);
+                    symbolManager.create(new SymbolOptions().withGeometry(p)
+                            .withIconImage(ICON_ID).withIconSize(0.2f));
+                    arri+=2;*/
+
+                    symbolManager.create(new SymbolOptions().withGeometry((Point) iterator.next())
+                            .withIconImage(ICON_ID).withIconSize(0.2f));
+                    //Toast.makeText(MapPage.this, "Loop Counts"+arri, Toast.LENGTH_SHORT).show();
+                    arri++;
+                }
+                //Toast.makeText(MapPage.this, "Points: "+pointList, Toast.LENGTH_SHORT).show();
+                Log.d(TAG,"onFailure: "+ pointList);
+
+
+                symbolManager.addClickListener(new OnSymbolClickListener() {
+                    @Override
+                    public void onAnnotationClick(Symbol symbol) {
+                        Toast.makeText(MapPage.this, "Symbol Clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                //----------
+                //--FALSE: ------------WORKING ONCLICK ----- UNCOMMENT IF MAP BREAKS
+
+                //-----Adding Plaque Title and Descriptions using InfoWindow SymbolLayer
+                //new LoadGeoJsonDataTask(MapPage.this).execute();
                 mapboxMap.addOnMapClickListener(MapPage.this);
             }
         });
     }
 
 
-
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
+        PointF pointf = mapboxMap.getProjection().toScreenLocation(point);
+
+
+
+        Toast.makeText(MapPage.this, "Layer Clicked" + point, Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -217,46 +282,3 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
     }
 }
 
-/*
-Previously used setStyle() method:
-
- mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/mapbox/cjf4m44iw0uza2spb3q0a7s41")
-                .withImage(ICON_ID,BitmapFactory.decodeResource(
-                        MapPage.this.getResources(),R.drawable.markersym))
-                .withSource(new GeoJsonSource(SOURCE_ID,
-                        FeatureCollection.fromFeatures(symbolLayerIconFeatureList)))
-                    .withLayer(new SymbolLayer(LAYER_ID,SOURCE_ID)
-                        .withProperties(
-                                iconImage(ICON_ID),
-                                iconAllowOverlap(true),
-                                iconIgnorePlacement(true),
-                                iconSize(interpolate(exponential(1f),zoom(),stop(12,0.1f)))
-                        )
-                    )
-        );
-
-*
-
- XML---------
-
-
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:tint="@android:color/white"
-            mapbox:backgroundTint="@color/colorPrimary"
-            app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
-
-
-
-
-
-
-
- */
