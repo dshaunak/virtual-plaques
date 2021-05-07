@@ -11,5 +11,6 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="mapboxBlue">#4264FB</color>
     <color name="lightRed">#FF6666</color>
-    <color name="lightBlack">#2E2E2E</color>
+    <color name="lightBlack">#5C5C5C</color>
+    <color name="textBlack">#171717</color>
 </resources>
