@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,6 +33,7 @@ public class AddPlaque extends AppCompatActivity {
     FirebaseUser fUser;
     String eMail;
     EditText longitudeInput, latitudeInput, plaqueTitle, plaqueDescription;
+    TextView Address;
     Button backToMapButton, saveButton;
 
     public static final String TAG = "addPlaque";
@@ -51,9 +53,22 @@ public class AddPlaque extends AppCompatActivity {
         latitudeInput=findViewById(R.id.editTextLatitude);
         plaqueTitle=findViewById(R.id.editPlaqueTitle);
         plaqueDescription=findViewById(R.id.editPlaqueDescription);
+        Address=findViewById(R.id.textAddress);
 
         saveButton=findViewById(R.id.savePlaqueBt);
         backToMapButton=findViewById(R.id.backToMapBt);
+
+        Intent data= getIntent();
+        String address = data.getStringExtra("address");
+        Double longitude = data.getDoubleExtra("longitude",0.0);
+        Double latitude = data.getDoubleExtra("latitude",0.0);
+
+        String longS = Double.toString(longitude);
+        String latS = Double.toString(latitude);
+
+        longitudeInput.setText(longS);
+        latitudeInput.setText(latS);
+        Address.setText(address);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +79,7 @@ public class AddPlaque extends AppCompatActivity {
                 String plaqueName = plaqueTitle.getText().toString().trim();
                 String plaqueText = plaqueDescription.getText().toString().trim();
                 int flag =1;
-
+                /*
                 //longitude.isEmpty() || latitude.isEmpty() || plaqueName.isEmpty() || plaqueText.isEmpty()
                 if(TextUtils.isEmpty(longitude)){
                     longitudeInput.setError("Longitude is required");
@@ -75,6 +90,7 @@ public class AddPlaque extends AppCompatActivity {
                     latitudeInput.setError("Latitude is required");
                     return;
                 }
+                */
 
                 if(TextUtils.isEmpty(plaqueName)){
                     plaqueTitle.setError("Plaque Title is required");
@@ -110,6 +126,12 @@ public class AddPlaque extends AppCompatActivity {
             }
         });
 
+        backToMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),MapBoxMap.class));
+            }
+        });
 
 
     }

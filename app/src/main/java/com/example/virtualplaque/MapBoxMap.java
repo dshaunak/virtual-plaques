@@ -1,5 +1,6 @@
 package com.example.virtualplaque;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -59,13 +60,14 @@ public class MapBoxMap extends AppCompatActivity implements OnMapReadyCallback, 
     private static final String DROPPED_MARKER_LAYER_ID = "DROPPED_MARKER_LAYER_ID";
     private MapView mapView;
     private MapboxMap mapboxMap;
-    public Button selectLocationBt;
+    public Button selectLocationBt, setPlaqueBt;
     private PermissionsManager permissionsManager;
     private ImageView hoveringMarker;
     private Layer droppedMarkerLayer;
     public static final String SOURCE_ID = "SOURCE_ID";
     public static final String ICON_ID = "ICON_ID";
     public static final String LAYER_ID = "LAYER_ID";
+    public String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,8 @@ public class MapBoxMap extends AppCompatActivity implements OnMapReadyCallback, 
 
         MapBoxMap.this.mapboxMap = mapboxMap;
         selectLocationBt= (Button) findViewById(R.id.selectLocationButton);
+        setPlaqueBt= (Button) findViewById(R.id.addPlaqueBt);
+        address = new String("");
 
         mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
             @Override
@@ -99,6 +103,8 @@ public class MapBoxMap extends AppCompatActivity implements OnMapReadyCallback, 
 
                 hoveringMarker = new ImageView(MapBoxMap.this);
                 hoveringMarker.setImageResource(R.drawable.markersym);
+                hoveringMarker.setMaxHeight(20);
+                hoveringMarker.setMaxWidth(20);
 
                 //Initialize Hovering Marker View
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
@@ -125,6 +131,25 @@ public class MapBoxMap extends AppCompatActivity implements OnMapReadyCallback, 
                                     ContextCompat.getColor(MapBoxMap.this, R.color.lightRed));
                             selectLocationBt.setText(getString(R.string.location_picker_select_location_button_cancel));
 
+                            //Making Set Plaque Button visible to confirm and go to the Add Plaque screen.
+                            setPlaqueBt.setVisibility(View.VISIBLE);
+
+                            setPlaqueBt.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    final LatLng plaqueTargetLocation = mapboxMap.getCameraPosition().target;
+
+                                        setPlaqueBt.setVisibility(View.VISIBLE);
+                                        Intent i = new Intent(v.getContext(),AddPlaque.class);
+                                        i.putExtra("longitude",mapTargetLatLng.getLongitude());
+                                        i.putExtra("latitude",mapTargetLatLng.getLatitude());
+                                        i.putExtra("address",address);
+                                        startActivity(i);
+                                }
+                            });
+
+
+
                             // Show the SymbolLayer icon to represent the selected map location
                             if (style.getLayer(DROPPED_MARKER_LAYER_ID) != null) {
                                 GeoJsonSource source = style.getSourceAs(SOURCE_ID);
@@ -143,6 +168,7 @@ public class MapBoxMap extends AppCompatActivity implements OnMapReadyCallback, 
                         else{
 
                             // Switch the button appearance back to select a location.
+                            setPlaqueBt.setVisibility(View.INVISIBLE);
                             selectLocationBt.setBackgroundColor(
                                     ContextCompat.getColor(MapBoxMap.this, R.color.colorPrimary));
                             selectLocationBt.setText(getString(R.string.location_picker_select_location_button_select));
@@ -165,20 +191,21 @@ public class MapBoxMap extends AppCompatActivity implements OnMapReadyCallback, 
 
 
 
+
             }
         });
     }
 
     public void initDroppedMarker(@NonNull Style loadedMapStyle){
         //Add Hover Marker to Map
-        loadedMapStyle.addImage(ICON_ID,BitmapFactory.decodeResource(getResources(),R.drawable.statuemarker));
+        loadedMapStyle.addImage(ICON_ID,BitmapFactory.decodeResource(getResources(),R.drawable.markersym));  //Plaque Image ------------------
         loadedMapStyle.addSource(new GeoJsonSource(SOURCE_ID));
         loadedMapStyle.addLayer(new SymbolLayer(DROPPED_MARKER_LAYER_ID,SOURCE_ID).withProperties(
                 iconImage(ICON_ID),
                 visibility(NONE),
                 iconAllowOverlap(true),
                 iconIgnorePlacement(true),
-                iconSize(interpolate(exponential(1f),zoom(),stop(12,0.3f)))
+                iconSize(interpolate(exponential(1f),zoom(),stop(12,0.4f)))
         ));
     }
 
@@ -274,6 +301,7 @@ public class MapBoxMap extends AppCompatActivity implements OnMapReadyCallback, 
                                             Toast.makeText(MapBoxMap.this,
                                                     String.format(getString(R.string.location_picker_place_name_result),
                                                             feature.placeName()), Toast.LENGTH_SHORT).show();
+                                            address=feature.placeName();
                                         }
                                     }
                                 });

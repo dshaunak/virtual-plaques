@@ -9,16 +9,26 @@
         android:id="@+id/mapViewSelect"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        mapbox:mapbox_cameraZoom="15"/>
+        mapbox:mapbox_cameraZoom="15">
 
-    <Button
-        android:id="@+id/selectLocationButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="8dp"
-        android:background="@color/colorPrimary"
-        android:text="Select a location"
-        android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/addPlaqueBt"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_gravity="top"
+            android:layout_margin="8dp"
+            android:text="Confirm Plaque"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/selectLocationButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="8dp"
+            android:background="@color/colorPrimary"
+            android:text="Select location"
+            android:textColor="@android:color/white" />
+    </com.mapbox.mapboxsdk.maps.MapView>
 
 </FrameLayout>

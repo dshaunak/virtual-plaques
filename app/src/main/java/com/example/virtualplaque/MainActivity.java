@@ -6,16 +6,23 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button SetPlaqueBt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+
+        SetPlaqueBt =findViewById(R.id.addPlaqueBt);
+
+        SetPlaqueBt.setVisibility(View.INVISIBLE);
 
         //Intent intent= new Intent(this, Login.class);
         //this.startActivity(intent);

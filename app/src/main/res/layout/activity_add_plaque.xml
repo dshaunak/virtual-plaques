@@ -6,55 +6,85 @@
     android:layout_height="match_parent"
     tools:context=".AddPlaque">
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="84dp"
+        android:layout_height="24dp"
+        android:text="Latitude"
+        android:textColor="@color/textBlack"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.691"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backToMapBt"
+        app:layout_constraintVertical_bias="0.114" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="84dp"
+        android:layout_height="24dp"
+        android:text="Longitude"
+        android:textColor="@color/textBlack"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backToMapBt"
+        app:layout_constraintVertical_bias="0.114" />
+
     <EditText
         android:id="@+id/editTextLatitude"
         android:layout_width="148dp"
         android:layout_height="51dp"
         android:layout_marginBottom="60dp"
         android:ems="10"
+        android:fontFamily="monospace"
         android:hint="Enter Latitude"
+        android:inputType="textPersonName"
         android:textColor="@color/textBlack"
         android:textColorHint="@color/lightBlack"
-        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editPlaqueTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toEndOf="@+id/editTextLongitude"
         app:layout_constraintTop_toBottomOf="@+id/backToMapBt"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.42" />
 
     <EditText
         android:id="@+id/editPlaqueTitle"
         android:layout_width="336dp"
         android:layout_height="63dp"
         android:ems="10"
+        android:fontFamily="monospace"
         android:hint="Enter Plaque Title"
+        android:inputType="textPersonName"
         android:textColor="@color/textBlack"
         android:textColorHint="@color/lightBlack"
-        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.47" />
+        app:layout_constraintVertical_bias="0.556" />
 
     <EditText
         android:id="@+id/editPlaqueDescription"
         android:layout_width="337dp"
         android:layout_height="68dp"
         android:layout_gravity="fill_vertical"
-        android:layout_marginBottom="260dp"
         android:ems="10"
+        android:fontFamily="monospace"
         android:hint="Enter Description"
+        android:inputType="textMultiLine"
         android:textColor="@color/textBlack"
         android:textColorHint="@color/lightBlack"
-        android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPlaqueTitle"
-        app:layout_constraintVertical_bias="0.928" />
+        app:layout_constraintTop_toBottomOf="@+id/backToMapBt"
+        app:layout_constraintVertical_bias="0.62" />
 
     <Button
         android:id="@+id/savePlaqueBt"
@@ -71,13 +101,14 @@
         android:id="@+id/backToMapBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Map"
         android:onClick="backtoMap"
+        android:text="Map"
         app:layout_constraintBottom_toTopOf="@+id/editPlaqueTitle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.308" />
+        app:layout_constraintVertical_bias="0.195" />
 
     <EditText
         android:id="@+id/editTextLongitude"
@@ -86,13 +117,43 @@
         android:layout_marginStart="36dp"
         android:layout_marginBottom="60dp"
         android:ems="10"
+        android:fontFamily="monospace"
         android:hint="Enter Longitude"
+        android:inputType="textPersonName"
         android:textColor="@color/textBlack"
         android:textColorHint="@color/lightBlack"
-        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editPlaqueTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backToMapBt"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.42" />
+
+    <TextView
+        android:id="@+id/textAddress"
+        android:layout_width="337dp"
+        android:layout_height="64dp"
+        android:fontFamily="monospace"
+        android:textColorHint="@color/lightBlack"
+        android:textColor="@color/textBlack"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/editPlaqueTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backToMapBt"
+        app:layout_constraintVertical_bias="0.918" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="84dp"
+        android:layout_height="24dp"
+        android:text="Address:"
+        android:textColor="@color/textBlack"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backToMapBt"
+        app:layout_constraintVertical_bias="0.886" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

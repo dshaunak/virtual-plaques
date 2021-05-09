@@ -83,7 +83,6 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
     private FeatureCollection featureCollection;
     public SymbolManager symbolManager;
     public DocumentSnapshot dS;
-    public double[] arr = new double[400];
     public int count =0;
     public static final String TAG = "Points";
 
@@ -117,7 +116,6 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
                                  count = value.size();
                         Toast.makeText(MapPage.this, "Firebase Doc Snapshot received." + count, Toast.LENGTH_SHORT).show();
                         int i =0;
-                        int j=0;
                         List<DocumentSnapshot> docSnap = value.getDocuments();
                         ListIterator itr =docSnap.listIterator(0);
 
@@ -126,8 +124,6 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
                             dS = docSnap.get(i);
                             markerList.add(Feature.fromGeometry(
                                     Point.fromLngLat(Double.parseDouble(dS.getString("loCord")), Double.parseDouble(dS.getString("laCord")))));
-                                    //arr[j++]=Double.parseDouble(dS.getString("loCord"));
-                                    //arr[j++]=Double.parseDouble(dS.getString("laCord"));
                             pointList.add(Point.fromLngLat(Double.parseDouble(dS.getString("loCord")), Double.parseDouble(dS.getString("laCord"))));
                             i++;
                         }
@@ -197,11 +193,6 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback, Ma
                 //while(arri+1<arr.length)
                 ListIterator iterator = pointList.listIterator();
                 while(iterator.hasNext()){
-                    /*Point p = Point.fromLngLat(arr[arri],arr[arri+1]);
-                    symbolManager.create(new SymbolOptions().withGeometry(p)
-                            .withIconImage(ICON_ID).withIconSize(0.2f));
-                    arri+=2;*/
-
                     symbolManager.create(new SymbolOptions().withGeometry((Point) iterator.next())
                             .withIconImage(ICON_ID).withIconSize(0.2f));
                     //Toast.makeText(MapPage.this, "Loop Counts"+arri, Toast.LENGTH_SHORT).show();
